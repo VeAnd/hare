@@ -1,0 +1,111 @@
+diff --git a/cmd/hare/tool.ha b/cmd/hare/tool.ha
+index 7f3f36ef..e3bf248f 100644
+--- a/cmd/hare/tool.ha
++++ b/cmd/hare/tool.ha
+@@ -53,7 +53,7 @@ fn tool(name: str, cmd: *getopt::command) (void | error) = {
+ 		getopt::printusage(os::stderr, name, cmd.help)!;
+ 		os::exit(os::status::FAILURE);
+ 	};
+-	const args: []str = [];
++	let args: []str = [];
+ 	if (len(cmd.args) > 1) {
+ 		args = cmd.args[1..];
+ 	};
+diff --git a/debug/backtrace.ha b/debug/backtrace.ha
+index 8698b1f2..0a9f25e5 100644
+--- a/debug/backtrace.ha
++++ b/debug/backtrace.ha
+@@ -69,7 +69,7 @@ fn printframe(
+ 	imgstat: *fs::filestat,
+ 	frame: stackframe,
+ ) (size | io::error) = {
+-	const pc = frame_pc(frame);
++	let pc = frame_pc(frame);
+ 
+ 	// Try to translate the address
+ 	match (translate(pc: uintptr)) {
+diff --git a/debug/dwarf/line.ha b/debug/dwarf/line.ha
+index e1fcecc0..feccc3ca 100644
+--- a/debug/dwarf/line.ha
++++ b/debug/dwarf/line.ha
+@@ -250,7 +250,7 @@ export fn line_step(
+ 			const op_adv = read_uleb128(prog.rd)?;
+ 			state.addr += (prog.head.min_instr_length * op_adv): uintptr;
+ 		case DW_LNS_advance_line =>
+-			const line = state.line: i64;
++			let line = state.line: i64;
+ 			const offs = read_sleb128(prog.rd)?;
+ 			line += offs;
+ 			state.line = line: uint;
+@@ -277,7 +277,7 @@ export fn line_step(
+ 			state.isa = read_uleb128(prog.rd)?: uint;
+ 		case =>
+ 			// Unknown opcode, skip
+-			const length = prog.head.opcode_lengths[opcode - 1];
++			let length = prog.head.opcode_lengths[opcode - 1];
+ 			for (length != 0; length -= 1) {
+ 				read_uleb128(prog.rd)?;
+ 			};
+diff --git a/hare/module/srcs.ha b/hare/module/srcs.ha
+index c54c1f10..083ecd25 100644
+--- a/hare/module/srcs.ha
++++ b/hare/module/srcs.ha
+@@ -201,7 +201,7 @@ fn _findsrcs(
+ 			res.mtime = stat.mtime;
+ 		};
+ 		tmp = os::realpath(tmp)?;
+-		stat = os::stat(tmp)?;
++		const stat = os::stat(tmp)?;
+ 	};
+ 
+ 	if (fs::isfile(stat.mode)) {
+diff --git a/hare/parse/expr.ha b/hare/parse/expr.ha
+index 381c76b3..4626ef7d 100644
+--- a/hare/parse/expr.ha
++++ b/hare/parse/expr.ha
+@@ -780,8 +780,8 @@ fn for_expr(lexer: *lex::lexer) (ast::expr | error) = {
+ 		yield null;
+ 	};
+ 
+-	const cond: nullable *ast::expr = null;
+-	const afterthought: nullable *ast::expr = null;
++	let cond: nullable *ast::expr = null;
++	let afterthought: nullable *ast::expr = null;
+ 
+ 	if (kind as ast::for_kind == ast::for_kind::ACCUMULATOR) {
+ 		cond = alloc(expr(lexer)?)!;
+diff --git a/path/ext_stack.ha b/path/ext_stack.ha
+index 3c89bfa1..98889b56 100644
+--- a/path/ext_stack.ha
++++ b/path/ext_stack.ha
+@@ -44,7 +44,7 @@ fn split_ext(buf: *buffer) (size, (str | void)) = {
+ 	case void =>
+ 		return (buf.end, void);
+ 	case let s: str =>
+-		const bs = strings::toutf8(s);
++		let bs = strings::toutf8(s);
+ 		bs = bytes::ltrim(bs, '.');
+ 		match (bytes::rindex(bs, '.')) {
+ 		case void =>
+@@ -77,7 +77,7 @@ fn split_exts(buf: *buffer) (size, (str | void)) = {
+ 	case void =>
+ 		return (buf.end, void);
+ 	case let s: str =>
+-		const bs = strings::toutf8(s);
++		let bs = strings::toutf8(s);
+ 		bs = bytes::ltrim(bs, '.');
+ 		match (bytes::index(bs, '.')) {
+ 		case void =>
+diff --git a/strconv/ftos.ha b/strconv/ftos.ha
+index c6d4c584..81b78afd 100644
+--- a/strconv/ftos.ha
++++ b/strconv/ftos.ha
+@@ -167,7 +167,7 @@ fn encode_e_dec(
+ 	let z = 0z;
+ 	assert(dec.nd > 0);
+ 	z += memio::appendrune(h, (dec.digits[0] + '0'): rune)?;
+-	const zeros: uint = match (prec) {
++	let zeros: uint = match (prec) {
+ 	case void =>
+ 		yield 0;
+ 	case let u: uint =>
