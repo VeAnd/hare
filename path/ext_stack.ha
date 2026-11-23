@@ -44,7 +44,7 @@ fn split_ext(buf: *buffer) (size, (str | void)) = {
 	case void =>
 		return (buf.end, void);
 	case let s: str =>
-		const bs = strings::toutf8(s);
+		let bs = strings::toutf8(s);
 		bs = bytes::ltrim(bs, '.');
 		match (bytes::rindex(bs, '.')) {
 		case void =>
@@ -77,7 +77,7 @@ fn split_exts(buf: *buffer) (size, (str | void)) = {
 	case void =>
 		return (buf.end, void);
 	case let s: str =>
-		const bs = strings::toutf8(s);
+		let bs = strings::toutf8(s);
 		bs = bytes::ltrim(bs, '.');
 		match (bytes::index(bs, '.')) {
 		case void =>

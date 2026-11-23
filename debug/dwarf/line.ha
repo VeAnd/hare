@@ -250,7 +250,7 @@ export fn line_step(
 			const op_adv = read_uleb128(prog.rd)?;
 			state.addr += (prog.head.min_instr_length * op_adv): uintptr;
 		case DW_LNS_advance_line =>
-			const line = state.line: i64;
+			let line = state.line: i64;
 			const offs = read_sleb128(prog.rd)?;
 			line += offs;
 			state.line = line: uint;
@@ -277,7 +277,7 @@ export fn line_step(
 			state.isa = read_uleb128(prog.rd)?: uint;
 		case =>
 			// Unknown opcode, skip
-			const length = prog.head.opcode_lengths[opcode - 1];
+			let length = prog.head.opcode_lengths[opcode - 1];
 			for (length != 0; length -= 1) {
 				read_uleb128(prog.rd)?;
 			};

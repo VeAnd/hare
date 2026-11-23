@@ -69,7 +69,7 @@ fn printframe(
 	imgstat: *fs::filestat,
 	frame: stackframe,
 ) (size | io::error) = {
-	const pc = frame_pc(frame);
+	let pc = frame_pc(frame);
 
 	// Try to translate the address
 	match (translate(pc: uintptr)) {

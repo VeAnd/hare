@@ -167,7 +167,7 @@ fn encode_e_dec(
 	let z = 0z;
 	assert(dec.nd > 0);
 	z += memio::appendrune(h, (dec.digits[0] + '0'): rune)?;
-	const zeros: uint = match (prec) {
+	let zeros: uint = match (prec) {
 	case void =>
 		yield 0;
 	case let u: uint =>

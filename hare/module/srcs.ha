@@ -201,7 +201,7 @@ fn _findsrcs(
 			res.mtime = stat.mtime;
 		};
 		tmp = os::realpath(tmp)?;
-		stat = os::stat(tmp)?;
+		const stat = os::stat(tmp)?;
 	};
 
 	if (fs::isfile(stat.mode)) {

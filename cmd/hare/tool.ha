@@ -53,7 +53,7 @@ fn tool(name: str, cmd: *getopt::command) (void | error) = {
 		getopt::printusage(os::stderr, name, cmd.help)!;
 		os::exit(os::status::FAILURE);
 	};
-	const args: []str = [];
+	let args: []str = [];
 	if (len(cmd.args) > 1) {
 		args = cmd.args[1..];
 	};

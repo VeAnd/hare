@@ -780,8 +780,8 @@ fn for_expr(lexer: *lex::lexer) (ast::expr | error) = {
 		yield null;
 	};
 
-	const cond: nullable *ast::expr = null;
-	const afterthought: nullable *ast::expr = null;
+	let cond: nullable *ast::expr = null;
+	let afterthought: nullable *ast::expr = null;
 
 	if (kind as ast::for_kind == ast::for_kind::ACCUMULATOR) {
 		cond = alloc(expr(lexer)?)!;
